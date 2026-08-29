@@ -2,14 +2,11 @@
 
 ## 本质：Agent 的核心是循环（Loop）。即：User Prompt → API（带tools） → 解析tool_calls→ 执行本地函数 → 将结果以tool角色回传 → API 二次推理 → 输出最终答案。
 
-| 环节                   	| 理论描述                                                            	| 你刚才实际操作中的对应物                                                                                                                        	|
-|------------------------	|---------------------------------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------------------	|
-| ① User Prompt          	| 你问问题                                                            	| 你写的 "messages": [{"role": "user", "content": "现在几点？"}]                                                                                  	|
-| ② API（带tools）       	| 把问题和工具清单发给大模型                                          	| 你写的 "tools": [...] 和 curl 发出去的整个 HTTP 请求                                                                                            	|
-| ③ 解析 tool_calls      	| 收到响应，发现 finish_reason=tool_calls，解析出要调用的函数名和参数 	| 就是你贴出来的这串结果！你需要在 Python 代码里写 if msg.tool_calls: 来捕获它                                                                    	|
-| ④ 执行本地函数         	| 你的 Python 脚本运行 get_time()，拿到 2026-08-29 15:30:00           	| 你还没做这一步。你需要自己在代码里写 def get_time(): return datetime.now()                                                                      	|
-| ⑤ 结果以 tool 角色回传 	| 把上一步的结果包装成新消息，再次发给 API                            	| 你需要构造第二次 API 请求，带着 messages 数组，里面新增一条： {"role": "tool", "tool_call_id": "call_abc123", "content": "2026-08-29 15:30:00"} 	|
-| ⑥ API 二次推理         	| 模型拿到 tool 返回的时间，终于能回答用户                            	| API 第二次返回 "现在时间是 2026-08-29 15:30:00"，finish_reason="stop"，循环结束                                                                 	|
-
+<img width="2530" height="1338" alt="mermaid-diagram-1787998463020" src="https://github.com/user-attachments/assets/920c8cc6-dc70-4994-90b6-e524f01f591e" />
 
 ### Demo:原生curl
+<img width="1138" height="702" alt="image" src="https://github.com/user-attachments/assets/7b93449c-df90-42df-9b79-4975d0c933c4" />
+
+### Agent底层工作原理
+
+<img width="1616" height="922" alt="image" src="https://github.com/user-attachments/assets/ae7e74c6-21b7-4d61-84dc-91cf82ab9494" />
