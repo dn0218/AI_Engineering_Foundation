@@ -10,3 +10,16 @@
 ### Agent底层工作原理
 
 <img width="1616" height="922" alt="image" src="https://github.com/user-attachments/assets/ae7e74c6-21b7-4d61-84dc-91cf82ab9494" />
+
+# 地基二: 安全沙箱（命令解析器）
+
+## 本质：安全沙箱不是“过滤危险字符”，而是“拒绝执行任意命令，仅将 AI 的输出映射到预设的绝对路径命令上”
+
+**粉碎直觉（为什么正则过滤无效）**
+- 绕过太简单
+- 利用编码绕过、换行符绕过
+- 只允许 AI 从预定义列表中选择命令和参数，由 Python 代码负责拼接和执行
+
+## 三层防御架构
+
+<img width="1551" height="3105" alt="deepseek_mermaid_20260830_0804e3" src="https://github.com/user-attachments/assets/bc73533f-a037-4ba8-ae5d-a4e016708bcc" />
